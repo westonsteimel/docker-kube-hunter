@@ -8,14 +8,13 @@ RUN apk --no-cache upgrade && apk --no-cache add \
     build-base \
     tcpdump \
     && git clone --depth 1 https://github.com/aquasecurity/kube-hunter \
-    && pip install --no-cache-dir -r kube-hunter/requirements.txt
+    && pip install --no-cache-dir -r kube-hunter/requirements.txt --upgrade -t kube-hunter
 
 FROM python:3-alpine
 
 WORKDIR /kube-hunter
 
 COPY --from=builder /build/kube-hunter /kube-hunter
-COPY --from=builder /usr/local/lib/python3.7/site-packages /usr/local/lib/python3.7/site-packages
 
 RUN apk --no-cache upgrade \
     && addgroup kube-hunter \
