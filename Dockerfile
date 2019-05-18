@@ -6,7 +6,6 @@ RUN apk --no-cache upgrade && apk --no-cache add \
     git \
     linux-headers \
     build-base \
-    tcpdump \
     && git clone --depth 1 https://github.com/aquasecurity/kube-hunter \
     && pip install --no-cache-dir -r kube-hunter/requirements.txt --upgrade -t kube-hunter
 
