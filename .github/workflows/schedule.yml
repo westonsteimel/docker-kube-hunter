@@ -19,7 +19,7 @@ jobs:
       env:
         DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
       with:
-        entrypoint: tag.sh
+        entrypoint: ./tag.sh
     - name: Login DockerHub
       uses: actions/docker/login@master
       env:
