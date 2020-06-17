@@ -11,7 +11,14 @@ RUN apk --no-cache upgrade && apk --no-cache add \
     linux-headers \
     build-base \
     && git clone --depth 1 --branch "${KUBE_HUNTER_VERSION}" https://github.com/aquasecurity/kube-hunter \
-    && pip install --no-cache-dir -r kube-hunter/requirements.txt --upgrade -t kube-hunter
+    && mkdir /kube-hunter \
+    && cp kube-hunter/setup.py /kube-hunter \
+    && cp kube-hunter/setup.cfg /kube-hunter \
+    && cp kube-hunter/Makefile /kube-hunter \
+    && cd /kube-hunter \
+    && make deps \
+    && cp -r /build/kube-hunter/* /kube-hunter/ \
+    && make install
 
 FROM python:3-alpine
 
@@ -20,7 +27,7 @@ ENV KUBE_HUNTER_VERSION "${KUBE_HUNTER_VERSION}"
 
 WORKDIR /kube-hunter
 
-COPY --from=builder /build/kube-hunter /kube-hunter
+COPY --from=builder /kube-hunter /kube-hunter
 
 RUN apk --no-cache upgrade \
     && addgroup kube-hunter \
